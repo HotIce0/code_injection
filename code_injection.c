@@ -157,13 +157,8 @@ int main(int argn, char **argv, char **envp)
     h.phdr = (Elf64_Phdr *)(h.mem + h.ehdr->e_phoff);
     h.shdr = (Elf64_Shdr *)(h.mem + h.ehdr->e_shoff);
     
-    // // Get address of .text
-    // for (i = 0; i < h.ehdr->e_phnum; i++)
-    //     if (h.phdr[i].p_type == PT_LOAD && h.phdr[i].p_offset == 0)
-    //         addr_text = h.phdr[i].p_vaddr;
+    // Get address of .text
     //addr_text = get_text_segment_addr_by_pid(pid);
-    // printf("please enter addr of injection code\n");
-    // scanf("%lx", &addr_text);
 
     // Create Injection Code
     p_injection_code = create_injection_code();
@@ -222,7 +217,6 @@ int main(int argn, char **argv, char **envp)
         
         // Write the executable elf file to the memory start with BASE_ADDRESS.
         pid_block_write(pid, (void *)BASE_ADDRESS, (void *)h.mem, st.st_size);
-        printf("2\n");
         printf("success to write the sepecify elf file to sepecify proc\n");
         // Get user register
         if (ptrace(PTRACE_GETREGS, pid, NULL, &h.user_reg) < 0 ) {
